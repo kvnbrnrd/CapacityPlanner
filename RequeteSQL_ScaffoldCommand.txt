@@ -1,0 +1,34 @@
+CREATE TABLE [dbo].[Collaborateurs]
+(
+[Id] INT NOT NULL PRIMARY KEY IDENTITY,
+[Nom] NVARCHAR(255) NOT NULL,
+[Prenom] NVARCHAR(255) NOT NULL
+)
+
+
+
+CREATE TABLE [dbo].[Projets]
+(
+[Id] INT NOT NULL PRIMARY KEY IDENTITY,
+[Client] NVARCHAR(255) NOT NULL,
+[Nom] NVARCHAR(255) NOT NULL,
+[Statut] NVARCHAR(255) NOT NULL,
+[Type] NVARCHAR(255) NOT NULL
+)
+
+
+
+
+CREATE TABLE [dbo].[Affectations]
+(
+[Id] INT NOT NULL PRIMARY KEY IDENTITY,
+[CollaborateurId] INT NOT NULL,
+[ProjetId] INT NOT NULL,
+[Charge] INT NOT NULL,
+[DateDebut] DATETIME2 NOT NULL,
+[DateFin] DATETIME2 NOT NULL,
+CONSTRAINT [FK_Affectations_Collaborateurs] FOREIGN KEY ([CollaborateurId]) REFERENCES [Collaborateurs]([Id]),
+CONSTRAINT [FK_Affectations_Projets] FOREIGN KEY ([ProjetId]) REFERENCES [Projets]([Id])
+)
+
+Scaffold-DbContext "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CapacityPlanner;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" Microsoft.EntityFrameWorkCore.SqlServer -outputdir Models -context CapacityPlannerDbContext -contextdir Repository -DataAnnotations -Force

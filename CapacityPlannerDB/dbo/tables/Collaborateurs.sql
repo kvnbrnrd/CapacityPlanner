@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[Collaborateurs]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [Nom] NVARCHAR(255) NOT NULL,
+	[Prenom] NVARCHAR(255) NOT NULL
+)

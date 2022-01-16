@@ -1,0 +1,33 @@
+Besoin initial :
+	pouvoir déterminer la charge et la bande passante de chacun des collaborateurs au CDC
+	
+BDD :
+	collaborateurs : liste des collaborateurs
+		nom, prénom, 
+	projets : liste des projets
+		client, nom, type (interne, insitu, agence), statut (en cours, terminé, annulé, avant-vente, en attente, à venir)
+	affectation
+		collaborateur, projet, % (allocation du temps de travail du collaborateur au projet), date début, date fin
+	
+
+Ecrans
+	- CRUD collaborateurs 
+	- CRUD projets
+	- CRUD affectation
+	- visu globale du capacity planning / plan de charge : 
+		visualiser sur une période données (par exemple le mois en cours + le mois suivant)
+		sur quel(s) projet(s) travail(lent) les collaborateurs 
+		+ indiquer si un collaborateur est surchargé (charge > 100%) ou si un collaborateur est "sous-chargé" (charge < 50%)
+
+
+
+Projet découpé en plusieurs lots :
+LOT 1 :
+	- fournir une API CRUD pour chacun des objets en BDD
+	- fournir une API permettant de donner la charge globale d'une personne sur un intervalle de temps donné (avec possibilité d'afficher le détail / liste des projets)
+
+LOT 2 :
+	- fournir un écran permettant la visu du plan de charge
+
+LOT 3 :
+	- interface CRUD pour chacun des objets en BDD
