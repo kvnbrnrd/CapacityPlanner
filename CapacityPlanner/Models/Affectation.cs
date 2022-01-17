@@ -21,11 +21,11 @@ namespace CapacityPlanner.Models
 
         [ForeignKey(nameof(CollaborateurId))]
         [InverseProperty("Affectations")]
-        [JsonIgnore]
+        //[JsonIgnore]
         public virtual Collaborateur Collaborateur { get; set; }
         [ForeignKey(nameof(ProjetId))]
         [InverseProperty("Affectations")]
-        [JsonIgnore]
+        //[JsonIgnore]
         public virtual Projet Projet { get; set; }
 
         public Affectation()

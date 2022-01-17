@@ -1,6 +1,7 @@
 ﻿using CapacityPlanner.Interfaces;
 using CapacityPlanner.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -84,6 +85,40 @@ namespace CapacityPlanner.API.Controllers
             }
 
             return NotFound(new { Message = "L'affectation n° " + id + " n'a pas pu être supprimée" });
+        }
+
+        // Get: api/Affectations/search/5
+        [HttpGet("search/{id}")]
+        public IActionResult SearchByDate(int id, DateTime searchDate)
+        {
+            var aToGet = _affectationRepository.SearchAll(a => a.Collaborateur.Id == id && a.DateDebut <= searchDate && a.DateFin >= searchDate);
+            if (aToGet != null)
+            {
+                int chargeTotale = 0;
+                string message = "";
+
+                for (int i = 0; i < aToGet.Count; i++)
+                {
+                    chargeTotale += aToGet[i].Charge;
+                }
+
+                if (chargeTotale <= 50)
+                {
+                    message = $"Le collaborateur {aToGet[0].Collaborateur.Prenom} {aToGet[0].Collaborateur.Nom} est sous-chargé à la date du {searchDate}";
+            
+                }
+
+                if (chargeTotale > 100)
+                {
+                    message = message = $"Le collaborateur {aToGet[0].Collaborateur.Prenom} {aToGet[0].Collaborateur.Nom} est surchargé à la date du {searchDate}";
+            
+                }
+
+                return Ok(new { Message = $"{message}", Affectations = aToGet, });
+
+            }
+
+            return NotFound(new { Message = $"Aucune affectation ne correspond à la recherche" });
         }
 
     }
