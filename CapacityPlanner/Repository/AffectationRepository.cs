@@ -58,12 +58,18 @@ namespace CapacityPlanner.Repository
 
         public List<Affectation> SearchAll(Expression<Func<Affectation, bool>> searchMethod)
         {
-            throw new NotImplementedException();
+            return _dataContext.Affectations
+                .Include(a => a.Collaborateur)
+                .Include(a => a.Projet)
+                .Where(searchMethod).ToList();
         }
 
         public Affectation Search(Expression<Func<Affectation, bool>> searchMethod)
         {
-            throw new NotImplementedException();
+            return _dataContext.Affectations
+                .Include(a => a.Collaborateur)
+                .Include(a => a.Projet)
+                .FirstOrDefault(searchMethod);
         }
 
 

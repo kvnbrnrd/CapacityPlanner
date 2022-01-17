@@ -55,12 +55,16 @@ namespace CapacityPlanner.Repository
 
         public List<Collaborateur> SearchAll(Expression<Func<Collaborateur, bool>> searchMethod)
         {
-            throw new NotImplementedException();
+            return _dataContext.Collaborateurs
+                .Include(c => c.Affectations)
+                .Where(searchMethod).ToList();
         }
 
         public Collaborateur Search(Expression<Func<Collaborateur, bool>> searchMethod)
         {
-            throw new NotImplementedException();
+            return _dataContext.Collaborateurs
+                .Include(c => c.Affectations)
+                .FirstOrDefault(searchMethod);
         }
 
 

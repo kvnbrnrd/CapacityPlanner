@@ -57,12 +57,16 @@ namespace CapacityPlanner.Repository
 
         public List<Projet> SearchAll(Expression<Func<Projet, bool>> searchMethod)
         {
-            throw new NotImplementedException();
+            return _dataContext.Projets
+                .Include(p => p.Affectations)
+                .Where(searchMethod).ToList();
         }
 
         public Projet Search(Expression<Func<Projet, bool>> searchMethod)
         {
-            throw new NotImplementedException();
+            return _dataContext.Projets
+                .Include(p => p.Affectations)
+                .FirstOrDefault(searchMethod);
         }
 
 
