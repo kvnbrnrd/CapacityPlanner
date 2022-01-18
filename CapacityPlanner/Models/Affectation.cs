@@ -31,7 +31,6 @@ namespace CapacityPlanner.Models
         public Affectation()
         {
             DateDebut = DateTime.Now;
-            DateFin = DateTime.Now;
         }
     }
 }

@@ -97,24 +97,33 @@ namespace CapacityPlanner.API.Controllers
                 int chargeTotale = 0;
                 string message = "";
 
-                for (int i = 0; i < aToGet.Count; i++)
+                if (aToGet.Count != 0)
                 {
-                    chargeTotale += aToGet[i].Charge;
-                }
 
-                if (chargeTotale <= 50)
-                {
-                    message = $"Le collaborateur {aToGet[0].Collaborateur.Prenom} {aToGet[0].Collaborateur.Nom} est sous-chargé à la date du {searchDate}";
-            
-                }
+                    for (int i = 0; i < aToGet.Count; i++)
+                    {
+                        chargeTotale += aToGet[i].Charge;
+                    }
 
-                if (chargeTotale > 100)
-                {
-                    message = message = $"Le collaborateur {aToGet[0].Collaborateur.Prenom} {aToGet[0].Collaborateur.Nom} est surchargé à la date du {searchDate}";
-            
-                }
+                    if (chargeTotale <= 50)
+                    {
+                        message = $"Le collaborateur {aToGet[0].Collaborateur.Prenom} {aToGet[0].Collaborateur.Nom} est sous-chargé à la date du {searchDate}";
 
-                return Ok(new { Message = $"{message}", Affectations = aToGet, });
+                    }
+
+                    else if (chargeTotale > 100)
+                    {
+                        message = message = $"Le collaborateur {aToGet[0].Collaborateur.Prenom} {aToGet[0].Collaborateur.Nom} est surchargé à la date du {searchDate}";
+
+                    }
+
+                    else
+                    {
+                        message = message = $"Le collaborateur {aToGet[0].Collaborateur.Prenom} {aToGet[0].Collaborateur.Nom} a une charge de travail adéquate à la date du {searchDate}";
+                    }
+
+                    return Ok(new { Message = $"{message}", Affectations = aToGet, Charge = chargeTotale });
+                }
 
             }
 
