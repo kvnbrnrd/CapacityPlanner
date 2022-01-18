@@ -2,6 +2,7 @@
 using CapacityPlanner.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -122,13 +123,30 @@ namespace CapacityPlanner.API.Controllers
                         message = message = $"Le collaborateur {aToGet[0].Collaborateur.Prenom} {aToGet[0].Collaborateur.Nom} a une charge de travail adéquate à la date du {searchDate}";
                     }
 
-                    return Ok(new { Message = $"{message}", Affectations = aToGet, Charge = chargeTotale });
+                    return Ok(new { Message = $"{message}", Charge = chargeTotale, Affectations = aToGet });
                 }
 
             }
 
             return NotFound(new { Message = $"Aucune affectation ne correspond à la recherche" });
         }
+
+        //[HttpGet("searchInterval/{id}")]
+        //public IEnumerable<IActionResult> SearchByDateInterval(int id, DateTime StartDate, DateTime EndDate)
+        //{
+        //    var aToGet = _affectationRepository.SearchAll(a => a.Collaborateur.Id == id && a.DateDebut <= StartDate && a.DateFin >= EndDate);
+        //    for (DateTime date = StartDate; date.Date <= EndDate.Date; date = date.AddDays(1))
+        //    {
+        //        yield return Ok(new { Message = "blabla", Date = date });
+        //    }
+
+        //    //foreach (DateTime date in SearchByDateInterval(id, StartDate, EndDate))
+        //    //{
+
+        //    //}
+
+
+        //}
 
     }
 }
