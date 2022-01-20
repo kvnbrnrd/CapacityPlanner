@@ -2,6 +2,7 @@
 using CapacityPlanner.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -90,7 +91,7 @@ namespace CapacityPlanner.API.Controllers
 
         // Get: api/Affectations/search/5
         [HttpGet("search/{id}")]
-        public IActionResult SearchByDate(int id, DateTime searchDate)
+        public IEnumerable SearchByDate(int id, DateTime searchDate)
         {
             var aToGet = _affectationRepository.SearchAll(a => a.Collaborateur.Id == id && a.DateDebut <= searchDate && a.DateFin >= searchDate);
             if (aToGet != null)
@@ -123,29 +124,90 @@ namespace CapacityPlanner.API.Controllers
                         message = message = $"Le collaborateur {aToGet[0].Collaborateur.Prenom} {aToGet[0].Collaborateur.Nom} a une charge de travail adéquate à la date du {searchDate}";
                     }
 
-                    return Ok(new { Message = $"{message}", Charge = chargeTotale, Affectations = aToGet });
+                    yield return new { Message = $"{message}", Charge = chargeTotale, Affectations = aToGet };
                 }
 
             }
 
-            return NotFound(new { Message = $"Aucune affectation ne correspond à la recherche" });
+            yield break;
         }
+
+        [HttpGet("searchInterval/{id}")]
+        public IEnumerable SearchByDateInterval(int id, DateTime StartDate, DateTime EndDate)
+        {
+            List<DateTime> searchDate = new List<DateTime>();
+
+            for (DateTime date = StartDate; date.Date <= EndDate.Date; date = date.AddDays(1))
+            {
+                searchDate.Add(date);
+            }
+
+            foreach (DateTime date in searchDate)
+            {
+                yield return Ok(SearchByDate(id, date));
+            }
+        }
+
+        //// Get: api/Affectations/search/5
+        //[HttpGet("search/{id}")]
+        //public IActionResult SearchByDate(int id, DateTime searchDate)
+        //{
+        //    var aToGet = _affectationRepository.SearchAll(a => a.Collaborateur.Id == id && a.DateDebut <= searchDate && a.DateFin >= searchDate);
+        //    if (aToGet != null)
+        //    {
+        //        int chargeTotale = 0;
+        //        string message = "";
+
+        //        if (aToGet.Count != 0)
+        //        {
+
+        //            for (int i = 0; i < aToGet.Count; i++)
+        //            {
+        //                chargeTotale += aToGet[i].Charge;
+        //            }
+
+        //            if (chargeTotale <= 50)
+        //            {
+        //                message = $"Le collaborateur {aToGet[0].Collaborateur.Prenom} {aToGet[0].Collaborateur.Nom} est sous-chargé à la date du {searchDate}";
+
+        //            }
+
+        //            else if (chargeTotale > 100)
+        //            {
+        //                message = message = $"Le collaborateur {aToGet[0].Collaborateur.Prenom} {aToGet[0].Collaborateur.Nom} est surchargé à la date du {searchDate}";
+
+        //            }
+
+        //            else
+        //            {
+        //                message = message = $"Le collaborateur {aToGet[0].Collaborateur.Prenom} {aToGet[0].Collaborateur.Nom} a une charge de travail adéquate à la date du {searchDate}";
+        //            }
+
+        //            return Ok(new { Message = $"{message}", Charge = chargeTotale, Affectations = aToGet });
+        //        }
+
+        //    }
+
+        //    return NotFound(new { Message = $"Aucune affectation ne correspond à la recherche" });
+        //}
 
         //[HttpGet("searchInterval/{id}")]
         //public IEnumerable<IActionResult> SearchByDateInterval(int id, DateTime StartDate, DateTime EndDate)
         //{
-        //    var aToGet = _affectationRepository.SearchAll(a => a.Collaborateur.Id == id && a.DateDebut <= StartDate && a.DateFin >= EndDate);
+        //    List<DateTime> searchDate = new List<DateTime>();
+
         //    for (DateTime date = StartDate; date.Date <= EndDate.Date; date = date.AddDays(1))
         //    {
-        //        yield return Ok(new { Message = "blabla", Date = date });
+        //        searchDate.Add(date);
         //    }
 
-        //    //foreach (DateTime date in SearchByDateInterval(id, StartDate, EndDate))
-        //    //{
-
-        //    //}
-
-
+        //    foreach (DateTime date in searchDate)
+        //    {
+        //        IActionResult result = SearchByDate(id, date);
+        //        var resultCast = (OkObjectResult)result;
+        //        var resultValue = resultCast.Value;
+        //        yield return Ok(resultValue);
+        //    }
         //}
 
     }
