@@ -1,0 +1,2 @@
+- Remplacer recherche collaborateur par ID par recherche par nom/prénom avec un contains
+- Formater les dates en DD-MM-YYYY
