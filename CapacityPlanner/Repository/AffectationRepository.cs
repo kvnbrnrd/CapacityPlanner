@@ -97,13 +97,13 @@ namespace CapacityPlanner.Repository
 
                     else if (chargeTotale > 100)
                     {
-                        message = message = $"Le collaborateur {aToGet[0].Collaborateur.Prenom} {aToGet[0].Collaborateur.Nom} est surchargé à la date du {searchDate}";
+                        message = $"Le collaborateur {aToGet[0].Collaborateur.Prenom} {aToGet[0].Collaborateur.Nom} est surchargé à la date du {searchDate}";
 
                     }
 
                     else
                     {
-                        message = message = $"Le collaborateur {aToGet[0].Collaborateur.Prenom} {aToGet[0].Collaborateur.Nom} a une charge de travail adéquate à la date du {searchDate}";
+                        message = $"Le collaborateur {aToGet[0].Collaborateur.Prenom} {aToGet[0].Collaborateur.Nom} a une charge de travail adéquate à la date du {searchDate}";
                     }
 
                     yield return new { Message = $"{message}", Charge = chargeTotale, Affectations = aToGet };
@@ -111,7 +111,7 @@ namespace CapacityPlanner.Repository
 
             }
 
-            yield break;
+            yield return new { Message = $"Aucune affectation trouvée à cette date" } ;
         }
 
         public IEnumerable SearchByDateInterval(int id, DateTime StartDate, DateTime EndDate)
@@ -129,6 +129,34 @@ namespace CapacityPlanner.Repository
             }
         }
 
+        public IEnumerable SearchAllByDateInterval(DateTime StartDate, DateTime EndDate)
+        {
+            List<Affectation> affectations = GetAll();
+
+            if (affectations != null)
+            {
+                List<Collaborateur> collaborateurs = new List<Collaborateur>();
+                int id = 0;
+                int prevId = 0;
+
+                foreach (Affectation affectation in affectations)
+                {
+                    prevId = affectation.CollaborateurId;
+                    if (prevId != 0 && prevId != id)
+                    {
+                        id = prevId;
+                        collaborateurs.Add(affectation.Collaborateur);
+                    }
+                }
+
+                foreach (Collaborateur collaborateur in collaborateurs)
+                {
+                    yield return SearchByDateInterval(collaborateur.Id, StartDate, EndDate);
+                }
+            }
+
+            yield break;
+        }
 
     }
 }

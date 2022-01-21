@@ -102,5 +102,17 @@ namespace CapacityPlanner.API.Controllers
             return NotFound(new { Message = "Aucune affectation trouvée dans cet intervalle de dates" });
         }
 
+        [HttpGet("searchAll")]
+        public IActionResult SearchAllByDateIntervalAction(DateTime StartDate, DateTime EndDate)
+        {
+            var affectationsByInterval = _affectationRepository.SearchAllByDateInterval(StartDate, EndDate);
+            if (affectationsByInterval != null)
+            {
+                return Ok(affectationsByInterval);
+            }
+
+            return NotFound(new { Message = "Aucune affectation pour aucun utilisateur dans cet intervalle de dates" });
+        }
+
     }
 }

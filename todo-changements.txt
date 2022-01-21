@@ -1,2 +1,3 @@
 - Remplacer recherche collaborateur par ID par recherche par nom/prénom avec un contains
 - Formater les dates en DD-MM-YYYY
+- Ne plus renvoyer les affectations entières mais seulement les parties utiles
