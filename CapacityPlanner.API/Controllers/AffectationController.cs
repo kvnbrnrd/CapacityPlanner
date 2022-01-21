@@ -13,9 +13,9 @@ namespace CapacityPlanner.API.Controllers
     [ApiController]
     public class AffectationsController : ControllerBase
     {
-        private IRepository<Affectation> _affectationRepository;
+        private IAffectation<Affectation> _affectationRepository;
 
-        public AffectationsController(IRepository<Affectation> affectationRepository)
+        public AffectationsController(IAffectation<Affectation> affectationRepository)
         {
             _affectationRepository = affectationRepository;
         }

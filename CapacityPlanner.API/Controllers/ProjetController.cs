@@ -10,9 +10,9 @@ namespace CapacityPlanner.API.Controllers
     [ApiController]
     public class ProjetsController : ControllerBase
     {
-        private IRepository<Projet> _projetRepository;
+        private IProjet<Projet> _projetRepository;
 
-        public ProjetsController(IRepository<Projet> projetRepository)
+        public ProjetsController(IProjet<Projet> projetRepository)
         {
             _projetRepository = projetRepository;
         }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CapacityPlanner.Repository
 {
-    public class AffectationRepository : BaseRepository, IRepository<Affectation>
+    public class AffectationRepository : BaseRepository, IAffectation<Affectation>
     {
         public AffectationRepository(CapacityPlannerDbContext dataContext) : base(dataContext)
         {

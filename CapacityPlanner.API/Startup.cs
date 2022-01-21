@@ -35,9 +35,9 @@ namespace CapacityPlanner.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CapacityPlanner.API", Version = "v1" });
             });
             services.AddDbContext<CapacityPlannerDbContext>();
-            services.AddScoped<IRepository<Collaborateur>, CollaborateurRepository>();
-            services.AddScoped<IRepository<Projet>, ProjetRepository>();
-            services.AddScoped<IRepository<Affectation>, AffectationRepository>();
+            services.AddScoped<ICollaborateur<Collaborateur>, CollaborateurRepository>();
+            services.AddScoped<IProjet<Projet>, ProjetRepository>();
+            services.AddScoped<IAffectation<Affectation>, AffectationRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

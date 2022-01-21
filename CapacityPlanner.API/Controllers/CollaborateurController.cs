@@ -10,9 +10,9 @@ namespace CapacityPlanner.API.Controllers
     [ApiController]
     public class CollaborateursController : ControllerBase
     {
-        private IRepository<Collaborateur> _collaborateurRepository;
+        private ICollaborateur<Collaborateur> _collaborateurRepository;
 
-        public CollaborateursController(IRepository<Collaborateur> collaborateurRepository)
+        public CollaborateursController(ICollaborateur<Collaborateur> collaborateurRepository)
         {
             _collaborateurRepository = collaborateurRepository;
         }

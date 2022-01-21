@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CapacityPlanner.Repository
 {
-    public class ProjetRepository : BaseRepository, IRepository<Projet>
+    public class ProjetRepository : BaseRepository, IProjet<Projet>
     {
         public ProjetRepository(CapacityPlannerDbContext dataContext) : base(dataContext)
         {
@@ -54,21 +54,6 @@ namespace CapacityPlanner.Repository
             _dataContext.Projets.Remove(Get(id));
             return _dataContext.SaveChanges() > 0;
         }
-
-        public List<Projet> SearchAll(Expression<Func<Projet, bool>> searchMethod)
-        {
-            return _dataContext.Projets
-                .Include(p => p.Affectations)
-                .Where(searchMethod).ToList();
-        }
-
-        public Projet Search(Expression<Func<Projet, bool>> searchMethod)
-        {
-            return _dataContext.Projets
-                .Include(p => p.Affectations)
-                .FirstOrDefault(searchMethod);
-        }
-
 
     }
 }
